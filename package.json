@@ -1,0 +1,25 @@
+{
+  "name": "fcc-bar-chart",
+  "version": "1.0.0",
+  "description": "bar chart project using d3.js and an api to visualize US GDP by year",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpstanway/fcc-bar-chart.git"
+  },
+  "author": "Jordan Stanway",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jpstanway/fcc-bar-chart/issues"
+  },
+  "homepage": "https://github.com/jpstanway/fcc-bar-chart#readme",
+  "devDependencies": {
+    "browser-sync": "^2.26.0",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.1"
+  },
+  "dependencies": {}
+}
