@@ -1,62 +1,70 @@
 
-// get GDP/year data
-const dataset = [
-    [1910, 0],
-    [1920, 1],
-    [1930, 2],
-    [1940, 3],
-    [1950, 4],
-    [1960, 5],
-    [1970, 6],
-    [1980, 7],
-    [1990, 8],
-    [2000, 9],
-    [2010, 10]
-];
 
-// set chart dimensions
-const w = 960;
-const h = 500;
-const padding = 20;
+// API url and variables
+let req, json, date;
+let dataset = [];
+const url = 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json';
 
-// set x and y scales
-const xScale = d3.scaleLinear()
-                .domain([d3.min(dataset, (d) => d[0]), d3.max(dataset, (d) => d[0])])
-                .range([padding, w - padding]);
+// get JSON data
+req = new XMLHttpRequest();
+req.open('GET', url, true);
+req.send();
+req.onload = function() {
+    json = JSON.parse(req.responseText);
+    // loop through json data
+    json.data.forEach(function(item) {
+        // get just the year from the date string
+        date = Number(item[0].substr(0, 4));
+        dataset.push([date, item[1]]);
+    });
 
-const yScale = d3.scaleLinear()
-                .domain([0, d3.max(dataset, (d) => d[1])])
-                .range([h - padding, padding]);
+    // set chart dimensions
+    const w = 960;
+    const h = 500;
+    const padding = 20;
 
-// create svg area in container
-const svg = d3.select('#container')
-                .append('svg')
-                .attr('width', w)
-                .attr('height', h);
+    // set x and y scales
+    const xScale = d3.scaleLinear()
+                    .domain([d3.min(dataset, (d) => d[0]), d3.max(dataset, (d) => d[0])])
+                    .range([padding, w - padding]);
 
-// create bar elements
-svg.selectAll('rect')
-    .data(dataset)
-    .enter()
-    .append('rect')
-    .attr('x', (d) => xScale(d[0]))
-    .attr('y', (d) => yScale(d[1]))
-    .attr('width', 25)
-    .attr('height', (d) => (h - padding) - yScale(d[1]))
-    .attr('class', 'bar')
-    .attr('data-gdp', (d) => d[0])
-    .attr('data-date', (d) => d[1]);               
+    const yScale = d3.scaleLinear()
+                    .domain([0, d3.max(dataset, (d) => d[1])])
+                    .range([h - padding, padding]);
 
-// set axes and append to DOM
-const xAxis = d3.axisBottom(xScale);
-const yAxis = d3.axisRight(yScale);                
+    // create svg area in container
+    const svg = d3.select('#container')
+                    .append('svg')
+                    .attr('width', w)
+                    .attr('height', h);
 
-svg.append('g')
-    .attr('transform', `translate(0, ${h - padding})`)
-    .attr('id', 'x-axis')
-    .call(xAxis);
+    // create bar elements and text for tooltips
+    svg.selectAll('rect')
+        .data(dataset)
+        .enter()
+        .append('rect')
+        .attr('x', (d) => xScale(d[0]))
+        .attr('y', (d) => yScale(d[1]))
+        .attr('width', 5)
+        .attr('height', (d) => (h - padding) - yScale(d[1]))
+        .attr('class', 'bar')
+        .attr('data-gdp', (d) => d[0])
+        .attr('data-date', (d) => d[1])
+        .append('title').text((d) => `${d[0]}: $${d[1]}`)
+        .attr('id', 'tooltip')
+        .attr('data-date', (d) => d[1]);               
 
-svg.append('g')
-    .attr('transform', `translate(0, 0)`)
-    .attr('id', 'y-axis')
-    .call(yAxis);
+    // set axes and append to DOM
+    const xAxis = d3.axisBottom(xScale);
+    const yAxis = d3.axisRight(yScale);                
+
+    svg.append('g')
+        .attr('transform', `translate(0, ${h - padding})`)
+        .attr('id', 'x-axis')
+        .call(xAxis);
+
+    svg.append('g')
+        .attr('transform', `translate(0, 0)`)
+        .attr('id', 'y-axis')
+        .call(yAxis);
+};
