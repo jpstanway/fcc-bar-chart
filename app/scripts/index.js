@@ -14,8 +14,8 @@ req.onload = function() {
     // loop through json data
     json.data.forEach(function(item) {
         // get just the year from the date string
-        date = Number(item[0].substr(0, 4));
-        dataset.push([date, item[1]]);
+        const date = Date.parse(item[0]);
+        dataset.push([date, item[1], item[0]]);
     });
 
     // set chart dimensions
@@ -36,7 +36,7 @@ req.onload = function() {
     const svg = d3.select('#container')
                     .append('svg')
                     .attr('width', w)
-                    .attr('height', h);
+                    .attr('height', h);                
 
     // create bar elements and text for tooltips
     svg.selectAll('rect')
@@ -48,14 +48,15 @@ req.onload = function() {
         .attr('width', 5)
         .attr('height', (d) => (h - padding) - yScale(d[1]))
         .attr('class', 'bar')
-        .attr('data-gdp', (d) => d[0])
-        .attr('data-date', (d) => d[1])
-        .append('title').text((d) => `${d[0]}: $${d[1]}`)
+        .attr('data-date', (d) => d[2])
+        .attr('data-gdp', (d) => d[1])
+        .append('title').text((d) => `${d[2]}: $${d[1]}`)
         .attr('id', 'tooltip')
-        .attr('data-date', (d) => d[1]);               
+        .attr('data-date', (d) => d[2]);               
 
     // set axes and append to DOM
-    const xAxis = d3.axisBottom(xScale);
+    const xAxis = d3.axisBottom(xScale)
+                    .tickFormat(d3.timeFormat('%Y'));
     const yAxis = d3.axisRight(yScale);                
 
     svg.append('g')
