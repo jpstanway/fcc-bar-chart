@@ -1,5 +1,4 @@
 
-
 // API url and variables
 let req, json, date;
 let dataset = [];
@@ -32,27 +31,36 @@ req.onload = function() {
                     .domain([0, d3.max(dataset, (d) => d[1])])
                     .range([h - padding, padding]);
 
+    // create tooltip
+    const tip = d3.tip()
+                    .attr('class', 'd3-tip')
+                    .attr('id', 'tooltip')
+                    .html((d) => {
+                        d3.select('#tooltip').attr('data-date', d[2]);
+                        return `${d[2].substr(0, 4)}: $${d[1]}`;
+                    });                    
+
     // create svg area in container
     const svg = d3.select('#container')
                     .append('svg')
                     .attr('width', w)
-                    .attr('height', h);                
+                    .attr('height', h)
+                    .call(tip);
 
     // create bar elements and text for tooltips
     svg.selectAll('rect')
         .data(dataset)
         .enter()
         .append('rect')
-        .attr('x', (d) => xScale(d[0]))
-        .attr('y', (d) => yScale(d[1]))
         .attr('width', 5)
         .attr('height', (d) => (h - padding) - yScale(d[1]))
+        .attr('x', (d) => xScale(d[0]))
+        .attr('y', (d) => yScale(d[1]))
         .attr('class', 'bar')
         .attr('data-date', (d) => d[2])
         .attr('data-gdp', (d) => d[1])
-        .append('title').text((d) => `${d[2]}: $${d[1]}`)
-        .attr('id', 'tooltip')
-        .attr('data-date', (d) => d[2]);               
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide);
 
     // set axes and append to DOM
     const xAxis = d3.axisBottom(xScale)
