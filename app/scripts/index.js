@@ -37,7 +37,9 @@ req.onload = function() {
                     .attr('id', 'tooltip')
                     .html((d) => {
                         d3.select('#tooltip').attr('data-date', d[2]);
-                        return `${d[2].substr(0, 4)}: $${d[1]}`;
+                        const formatTime = d3.timeFormat("%B %Y");
+                        const formatNum = d3.format("~s")(d[1] * 1000000000);
+                        return `${formatTime(new Date(d[2]))}<br>$${formatNum}`;
                     });                    
 
     // create svg area in container
@@ -87,5 +89,5 @@ req.onload = function() {
     svg.append('text')
        .attr('transform', 'translate(60, 270)rotate(270)')
        .attr('class', 'axis-text')
-       .text('GDP (in trillions)');   
+       .text('GDP (in billions)');   
 };
