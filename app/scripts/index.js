@@ -70,10 +70,22 @@ req.onload = function() {
     svg.append('g')
         .attr('transform', `translate(0, ${h - padding})`)
         .attr('id', 'x-axis')
-        .call(xAxis);
-
+        .call(xAxis)
+    
     svg.append('g')
-        .attr('transform', `translate(0, 0)`)
+        .attr('transform', 'translate(0, 0)')
         .attr('id', 'y-axis')
         .call(yAxis);
+
+    // set text for axes and append to DOM
+    svg.append('text')
+        .attr('transform', `translate(470, ${h - padding - 10})`)
+        .attr('class', 'axis-text')
+        .text('Year (Quarterly)')
+        .style('fill', 'white');
+
+    svg.append('text')
+       .attr('transform', 'translate(60, 270)rotate(270)')
+       .attr('class', 'axis-text')
+       .text('GDP (in trillions)');   
 };
