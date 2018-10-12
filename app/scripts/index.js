@@ -18,8 +18,8 @@ req.onload = function() {
     });
 
     // set chart dimensions
-    const w = 960;
-    const h = 500;
+    const w = 1080;
+    const h = 600;
     const padding = 20;
 
     // set x and y scales
@@ -47,20 +47,21 @@ req.onload = function() {
                     .append('svg')
                     .attr('width', w)
                     .attr('height', h)
-                    .call(tip);
+                    .call(tip);               
 
     // create bar elements and text for tooltips
     svg.selectAll('rect')
         .data(dataset)
         .enter()
         .append('rect')
-        .attr('width', 5)
+        .attr('width', 3.9)
         .attr('height', (d) => (h - padding) - yScale(d[1]))
         .attr('x', (d) => xScale(d[0]))
         .attr('y', (d) => yScale(d[1]))
         .attr('class', 'bar')
         .attr('data-date', (d) => d[2])
         .attr('data-gdp', (d) => d[1])
+        .style('fill', '#39ff14')
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide);
 
@@ -84,10 +85,10 @@ req.onload = function() {
         .attr('transform', `translate(470, ${h - padding - 10})`)
         .attr('class', 'axis-text')
         .text('Year (Quarterly)')
-        .style('fill', 'white');
+        .style('pointer-events', 'none');
 
     svg.append('text')
-       .attr('transform', 'translate(60, 270)rotate(270)')
+       .attr('transform', 'translate(70, 340)rotate(270)')
        .attr('class', 'axis-text')
        .text('GDP (in billions)');   
 };

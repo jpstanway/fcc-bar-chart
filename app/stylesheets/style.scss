@@ -1,5 +1,4 @@
-@import 'partials/variables';
-@import 'partials/mixins';
+@import url('https://fonts.googleapis.com/css?family=Lora:400,700|Open+Sans:400,700');
 
 body {
     padding: 10px;
@@ -8,6 +7,36 @@ body {
 }
 
 #container {
+    width: 1060px;
+    height: auto;
     margin: auto;
     position: relative;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 2px 2px 5px 2px #c1c1c1;
+    font-family: 'Lora', 'Georgia', serif;
+}
+
+#title {
+    color: lighten(black, 20%);
+    font-family: 'Open Sans', 'Arial', sans-serif;
+}
+
+.d3-tip {
+    background: rgba(218, 20, 255, 0.8);
+    font-family: 'Open Sans', 'Arial', sans-serif;
+
+    &:after {
+      color: rgba(218, 20, 255, 0.8);   
+    }
+}
+
+.bar:hover {
+    fill: lighten(#39ff14, 35%) !important;
+}
+
+.tick {
+    font-family: 'Lora', 'Georgia', serif;
+    font-size: 1.2em;
 }
