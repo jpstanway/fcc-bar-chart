@@ -18,8 +18,8 @@ req.onload = function() {
     });
 
     // set chart dimensions
-    const w = 1080;
-    const h = 600;
+    const w = 960;
+    const h = 500;
     const padding = 20;
 
     // set x and y scales
@@ -54,7 +54,7 @@ req.onload = function() {
         .data(dataset)
         .enter()
         .append('rect')
-        .attr('width', 3.9)
+        .attr('width', 3.5)
         .attr('height', (d) => (h - padding) - yScale(d[1]))
         .attr('x', (d) => xScale(d[0]))
         .attr('y', (d) => yScale(d[1]))
@@ -82,13 +82,13 @@ req.onload = function() {
 
     // set text for axes and append to DOM
     svg.append('text')
-        .attr('transform', `translate(470, ${h - padding - 10})`)
+        .attr('transform', `translate(440, ${h - padding - 10})`)
         .attr('class', 'axis-text')
         .text('Year (Quarterly)')
         .style('pointer-events', 'none');
 
     svg.append('text')
-       .attr('transform', 'translate(70, 340)rotate(270)')
+       .attr('transform', 'translate(70, 290)rotate(270)')
        .attr('class', 'axis-text')
        .text('GDP (in billions)');   
 };
